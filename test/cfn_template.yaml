@@ -1,0 +1,8 @@
+---
+cfn_bucket: s3://bucket-name/
+secgroups:
+  common:
+    ssh:
+      - 8.8.8.8
+      - 212.220.67.25
+      - 72.52.4.91

@@ -32,7 +32,8 @@ def cmd_options():
     usage = """cfngot
 
 Usage:
-    cfngot cfn [--validate|--create|--update|--destroy] --config <file_name>
+    cfngot cfn --yaml-config <yaml_fname>
+    cfngot aws (--cfn-validate|--cfn-create|--cfn-update|--cfn-destroy) --profile <profile_name>
     cfngot json-diff <file1> <file2>
     cfngot (-v|--version)
     cfngot
@@ -49,10 +50,21 @@ def main():
 
     if opts['cfn']:
         from lib.cfn import CfnTemplateFactory
-        cfn = CfnTemplateFactory(opts['<file_name>'])
-        print(cfn.render_all())
+        cfn = CfnTemplateFactory(opts['<yaml_fname>'])
+        cfn.render_all()
     elif opts['json-diff']:
         from lib.cfn import CfnDiffFactory
+    elif opts['aws']:
+        from lib.cfn import CfnAwsCliOperations
+        awscli = CfnAwsCliOperations(opts)
+        if opts['--cfn-validate']:
+            awscli.validate()
+        if opts['--cfn-create']:
+            awscli.create()
+        if opts['--cfn-update']:
+            awscli.update()
+        if opts['--cfn-destroy']:
+            awscli.destroy()
     else:
         print(opts)
 

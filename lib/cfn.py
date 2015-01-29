@@ -29,6 +29,8 @@ import json
 import subprocess
 import tempfile
 
+from lib.helpers import *
+
 
 class CfnTemplateFactory(object):
     """
@@ -37,21 +39,26 @@ class CfnTemplateFactory(object):
     configguration file
     """
     def __init__(self, yaml_fname, jinja_temp=None):
+        """
+        @param string yaml_fname    Path to the yaml configuration file
+        @param string jinja_temp    Path to the jinja2 templa if in single file
+                                    rendering mode
+        """
         self.jinja_temp = jinja_temp
         self.yaml_fname = yaml_fname
 
-        with open(self.yaml_fname, 'r') as vars_file:
-            self.config = yaml.load(vars_file)
-
-    def j2_finder(self):
-        matches = []
-        for root, dirnames, filenames in os.walk('.'):
-            for filename in fnmatch.filter(filenames, '*.json.j2'):
-                matches.append(os.path.join(root, filename))
-        return matches
+        try:
+            with open(self.yaml_fname, 'r') as vars_file:
+                self.config = yaml.load(vars_file)
+        except (IOError, OSError) as e:
+            raise Exception(e)
 
     def render_all(self):
-        j2s = self.j2_finder()
+        """
+        Takes all jinja2 templaes renders them into pure json files and saves
+        them into the same location as original j2 files
+        """
+        j2s = Helpers._find_all_files('*.json.j2')
         for file in j2s:
             template = Template(open(file).read())
             stack = template.render(self.config)
@@ -99,3 +106,23 @@ class CfnDiffFactory(object):
         subprocess.Popen(['vimdiff', _load_file(a), _load_file(b)])
         print('You should periodically clear the /tmp/tmp* files from your \
                system to prevent interesting ASCII art :-)')
+
+
+class CfnAwsCliOperations(object):
+    """
+    Wrapper around awscli tool
+    """
+    def __init__(self, kwargs):
+        self.profile = kwargs['<profile_name>']
+        self.cfn_templates = Helpers._find_all_files('*.json')
+
+        try:
+            with open(self.yaml_fname, 'r') as vars_file:
+                self.config = yaml.load(vars_file)
+        except (IOError, OSError) as e:
+            raise Exception(e)
+
+    def _upload_templates(self):
+        for file in self.cfn_templates:
+            subprocess.Popen(['aws', '--profile', self.profile, 's3', 'cp',
+                file, self.config['cfn_bucket']])
