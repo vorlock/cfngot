@@ -123,13 +123,24 @@ class CfnAwsCliOperations(object):
         except (IOError, OSError) as e:
             raise Exception(e)
 
+        self.awscli_args = ['aws', '--region', self.config['cfn_region'],
+                            '--profile', self.profile]
+
     def _upload_templates(self):
-        for file in self.cfn_templates:
+        bucket_url = 's3://' + self.config['cfn_bucket'] + '/'
+        for cfn_templ in self.cfn_templates:
             try:
-                subprocess.call(['aws', '--profile', self.profile, 's3', 'cp',
-                    file, self.config['cfn_bucket']])
+                subprocess.call(self.awscli_args +
+                                ['s3', 'cp', cfn_templ, bucket_url])
             except OSError as e:
                 Exception(e)
 
     def validate(self):
         self._upload_templates()
+        for f_name in Helpers._find_all_files('*.json'):
+            template_url = 'http://s3.amazonaws.com/' + \
+                           self.config['cfn_bucket'] + '/' + \
+                           os.path.basename(f_name)
+            subprocess.call(self.awscli_args +
+                            ['cloudformation', 'validate-template',
+                             '--template-url', template_url])
