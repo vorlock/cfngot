@@ -65,6 +65,11 @@ class CfnTemplateFactory(object):
             s_name = file[:-3]
             with open(s_name, "w") as out_file:
                 out_file.write(stack)
+            # testing if 'stack' is a valid JSON
+            try:
+                json.loads(stack)
+            except ValueError as e:
+                raise Exception("Not a valid JSON: %s" % e)
 
 
 class CfnDiffFactory(object):

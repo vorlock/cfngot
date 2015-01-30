@@ -1,3 +1,35 @@
-{% for ip in secgroups.common.ssh -%}
-CIDR - {{ ip }}
-{% endfor -%}
+{###############################################################################
+ Below is/are macros used further on in this template
+###############################################################################}
+{# macro01 is a general purpose macro to implement DRY methodology to as much
+    code as possible
+#}
+{% macro macro01(IpProtocol, FromPort, ToPort) -%}
+                        "IpProtocol": "{{ IpProtocol }}",
+            "FromPort"  : "{{ FromPort }}",
+            "ToPort"    : "{{ ToPort }}",
+{%- endmacro %}
+{################# macros END #################################################}
+{
+  "Resources": {
+    "commonSG": {
+      "Type": "AWS::EC2::SecurityGroup",
+      "Properties": {
+        "VpcId"               : {"Ref": "vpcid"},
+        "GroupDescription"    : "Global rules for all hosts",
+        "SecurityGroupIngress": [
+{%- for ip in secgroups.common.ssh %}
+          {
+            {{ macro01('tcp','22','22') }}
+            "CidrIp"    : "{{ ip }}"
+          },
+{%- endfor %}
+          {
+            {{ macro01('tcp','443','443') }}
+            "CidrIp": "0.0.0.0/0"
+          }
+        ]
+      }
+    }
+  }
+}
