@@ -33,7 +33,7 @@ def cmd_options():
 
 Usage:
     cfngot cfn --yaml-config <yaml_fname>
-    cfngot aws (--cfn-validate|--cfn-create|--cfn-update|--cfn-destroy) --profile <profile_name>
+    cfngot aws (--cfn-validate|--cfn-create|--cfn-update|--cfn-destroy) --profile <profile_name> --yaml-config <yaml_fname>
     cfngot json-diff <file1> <file2>
     cfngot (-v|--version)
     cfngot
@@ -59,11 +59,11 @@ def main():
         awscli = CfnAwsCliOperations(opts)
         if opts['--cfn-validate']:
             awscli.validate()
-        if opts['--cfn-create']:
+        elif opts['--cfn-create']:
             awscli.create()
-        if opts['--cfn-update']:
+        elif opts['--cfn-update']:
             awscli.update()
-        if opts['--cfn-destroy']:
+        elif opts['--cfn-destroy']:
             awscli.destroy()
     else:
         print(opts)

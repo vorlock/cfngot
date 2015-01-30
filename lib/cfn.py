@@ -115,6 +115,7 @@ class CfnAwsCliOperations(object):
     def __init__(self, kwargs):
         self.profile = kwargs['<profile_name>']
         self.cfn_templates = Helpers._find_all_files('*.json')
+        self.yaml_fname = kwargs['<yaml_fname>']
 
         try:
             with open(self.yaml_fname, 'r') as vars_file:
@@ -124,5 +125,11 @@ class CfnAwsCliOperations(object):
 
     def _upload_templates(self):
         for file in self.cfn_templates:
-            subprocess.Popen(['aws', '--profile', self.profile, 's3', 'cp',
-                file, self.config['cfn_bucket']])
+            try:
+                subprocess.call(['aws', '--profile', self.profile, 's3', 'cp',
+                    file, self.config['cfn_bucket']])
+            except OSError as e:
+                Exception(e)
+
+    def validate(self):
+        self._upload_templates()

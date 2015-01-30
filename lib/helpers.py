@@ -8,7 +8,9 @@ class Helpers(object):
         them
         """
         matches = []
-        for root, dirnames, filenames in os.walk('.'):
-            for filename in fnmatch.filter(filenames, suffix):
+        excludes = ['env','venv']
+        for root, dirs, files in os.walk('.'):
+            dirs[:] = [d for d in dirs if d not in excludes]
+            for filename in fnmatch.filter(files, suffix):
                 matches.append(os.path.join(root, filename))
         return matches
