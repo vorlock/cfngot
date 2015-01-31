@@ -11,6 +11,13 @@
 {%- endmacro %}
 {################# macros END #################################################}
 {
+  "Parameters": {
+    "vpccidr": {
+      "Type"       : "String",
+      "Description": "VPC Subnet range",
+      "Default"    : "{{ cfn_environment }}"
+    }
+  },
   "Resources": {
     "commonSG": {
       "Type": "AWS::EC2::SecurityGroup",

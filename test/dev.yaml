@@ -1,4 +1,5 @@
 ---
+cfn_environment: dev
 cfn_bucket: bucket-name
 cfn_region: us-east-1
 secgroups:

@@ -130,6 +130,8 @@ class CfnAwsCliOperations(object):
 
         self.awscli_args = ['aws', '--region', self.config['cfn_region'],
                             '--profile', self.profile]
+        self.template_url_part = 'https://s3.amazonaws.com/' + \
+                                 self.config['cfn_bucket'] + '/'
 
     def _upload_templates(self):
         bucket_url = 's3://' + self.config['cfn_bucket'] + '/'
@@ -143,9 +145,20 @@ class CfnAwsCliOperations(object):
     def validate(self):
         self._upload_templates()
         for f_name in Helpers._find_all_files('*.json'):
-            template_url = 'http://s3.amazonaws.com/' + \
-                           self.config['cfn_bucket'] + '/' + \
-                           os.path.basename(f_name)
+            template_url = self.template_url_part + os.path.basename(f_name)
             subprocess.call(self.awscli_args +
                             ['cloudformation', 'validate-template',
                              '--template-url', template_url])
+
+    def create(self):
+        self.validate()
+        template_url = self.template_url_part + 'root.json'
+        params_file = 'file://params/' + self.config['cfn_environment'] + \
+                      '.json'
+
+        subprocess.call(self.awscli_args +
+                        ['cloudformation', 'create-stack',
+                         '--template-url', template_url,
+                         '--capabilities', 'CAPABILITY_IAM',
+                         '--stack-name', self.config['cfn_environment'],
+                         '--parameters', params_file])
