@@ -150,14 +150,16 @@ class CfnAwsCliOperations(object):
                             ['cloudformation', 'validate-template',
                              '--template-url', template_url])
 
-    def create(self):
+    def action(self, action):
         self.validate()
         template_url = self.template_url_part + 'root.json'
-        params_file = 'file://params/' + self.config['cfn_environment'] + \
-                      '.json'
+        params_fname = self.config['cfn_environment'] + '.json'
+        for root, dirs, files in os.walk('.'):
+            if params_fname in files:
+                params_file = os.path.join(root, params_fname)
 
         subprocess.call(self.awscli_args +
-                        ['cloudformation', 'create-stack',
+                        ['cloudformation', action,
                          '--template-url', template_url,
                          '--capabilities', 'CAPABILITY_IAM',
                          '--stack-name', self.config['cfn_environment'],

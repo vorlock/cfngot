@@ -60,9 +60,9 @@ def main():
         if opts['--cfn-validate']:
             awscli.validate()
         elif opts['--cfn-create']:
-            awscli.create()
+            awscli.action('create-stack')
         elif opts['--cfn-update']:
-            awscli.update()
+            awscli.action('update-stack')
         elif opts['--cfn-destroy']:
             awscli.destroy()
     else:
