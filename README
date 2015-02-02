@@ -1,4 +1,8 @@
-# cfngot (Cloudformation great optimisation toolset)
+# cfngot
+### (Cloudformation great optimisation toolset)
+It's tool allowing for describing cloudformation templates with jinja2
+formating. J2 templates will be then rendered to the pure json cloudformation
+templates.
 
 ### Table of Contents
 1. [License & Copyright](#license & copyright)
@@ -36,3 +40,29 @@
 * MarkupSafe
 * PyYAML
 * awscli
+
+## Configuration
+There is no configuration required for this tool at the moment at all, but one
+have to have configured `awscli` with correctly set profiles to use it.
+
+Whole configuration for CFN templates is done from yaml files which are
+specified with the `--yaml-config` option
+
+## Usage
+There are 3 subcommands available:
+
+`cfn` - for generating cloudformation templates from jinja2 files
+
+`json-diff` -  (not ready yet) for displaying (using vimdiff) differences between
+  2 json files
+
+`aws` - for updating and creating cloudformation stacks as well as validating
+  them against cloudformation service provided by AWS.
+
+
+Below is the exact usage:
+
+    cfngot cfn --yaml-config <yaml_fname>
+    cfngot aws (--cfn-validate|--cfn-create|--cfn-update|--cfn-destroy) --profile <profile_name> --yaml-config <yaml_fname>
+    cfngot json-diff <file1> <file2>
+    cfngot (-v|--version)
