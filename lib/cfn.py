@@ -77,11 +77,11 @@ class CfnDiffFactory(object):
     Class for comparing cloudformastion templates downloaded from AWS and
     generated with CfnTemplateFactory class or any other way
     """
-    def __init__(self, f_name1, f_name2):
-        self.f_name1 = f_name1
-        self.f_name2 = f_name2
+    def __init__(self, kwargs):
+        self.f_name1 = kwargs['<file1>']
+        self.f_name2 = kwargs['<file2>']
 
-    def _load_file(self):
+    def _load_file(self, fname):
         file_contents = ''
         with open(os.path.realpath(fname)) as file_name:
             loaded_template = json.load(file_name)
@@ -99,7 +99,7 @@ class CfnDiffFactory(object):
 
     def _walk_and_sort(self, dictionary):
         if isinstance(dictionary, dict):
-            for key, item in dictionary.iteritems():
+            for key, item in dictionary.items():
                 if isinstance(item, dict):
                     self._walk_and_sort(item)
                 elif isinstance(item, list):
@@ -107,8 +107,9 @@ class CfnDiffFactory(object):
 
         return dictionary
 
-    def diff(a, b, difftool):
-        subprocess.Popen(['vimdiff', _load_file(a), _load_file(b)])
+    def diff(self):
+        subprocess.Popen(['vimdiff', self._load_file(self.f_name1),
+            self._load_file(self.f_name2)])
         print('You should periodically clear the /tmp/tmp* files from your \
                system to prevent interesting ASCII art :-)')
 

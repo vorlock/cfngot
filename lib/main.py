@@ -53,7 +53,10 @@ def main():
         cfn = CfnTemplateFactory(opts['<yaml_fname>'])
         cfn.render_all()
     elif opts['json-diff']:
-        from lib.cfn import CfnDiffFactory
+        if opts['<file1>'] and opts['<file2>']:
+            from lib.cfn import CfnDiffFactory
+            json_diff = CfnDiffFactory(opts)
+            json_diff.diff()
     elif opts['aws']:
         from lib.cfn import CfnAwsCliOperations
         awscli = CfnAwsCliOperations(opts)
