@@ -92,7 +92,7 @@ class CfnDiffFactory(object):
         # smash the output into a temporary file, so we can call vimdiff on it
         temp_file = tempfile.NamedTemporaryFile(delete=False,
                                                 suffix=fname.replace('/', '_'))
-        temp_file.write(file_contents)
+        temp_file.write(file_contents.encode("UTF-8"))
         temp_file.close()
 
         return temp_file.name
@@ -103,15 +103,14 @@ class CfnDiffFactory(object):
                 if isinstance(item, dict):
                     self._walk_and_sort(item)
                 elif isinstance(item, list):
-                    item.sort()
+                    # below line have to be sorted, key can't be hardcoded
+                    sorted(item, key = lambda t: t['CidrIp'])
 
         return dictionary
 
     def diff(self):
-        subprocess.Popen(['vimdiff', self._load_file(self.f_name1),
+        subprocess.call(['vimdiff', self._load_file(self.f_name1),
             self._load_file(self.f_name2)])
-        print('You should periodically clear the /tmp/tmp* files from your \
-               system to prevent interesting ASCII art :-)')
 
 
 class CfnAwsCliOperations(object):
