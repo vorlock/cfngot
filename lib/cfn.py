@@ -103,8 +103,8 @@ class CfnDiffFactory(object):
                 if isinstance(item, dict):
                     self._walk_and_sort(item)
                 elif isinstance(item, list):
-                    # below line have to be sorted, key can't be hardcoded
-                    sorted(item, key = lambda t: t['CidrIp'])
+                    dict_key = list(item[0].keys())[0]
+                    sorted(item, key = lambda t: t[dict_key])
 
         return dictionary
 
