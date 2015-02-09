@@ -103,8 +103,13 @@ class CfnDiffFactory(object):
                 if isinstance(item, dict):
                     self._walk_and_sort(item)
                 elif isinstance(item, list):
-                    dict_key = list(item[0].keys())[0]
-                    sorted(item, key = lambda t: t[dict_key])
+                    if isinstance(item[0], dict):
+                        dict_key = list(item[0].keys())[0]
+                        sorted(item, key = lambda t: t[dict_key])
+                    elif isinstance(item[0], list):
+                        sorted(item, key = lambda t: t[0])
+                    elif isinstance(item[0], str):
+                        break
 
         return dictionary
 
