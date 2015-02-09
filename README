@@ -3,6 +3,9 @@
 It's tool allowing for describing cloudformation templates with jinja2
 formating. J2 templates will be then rendered to the pure json cloudformation
 templates.
+This tool also allows for comparing two json files (json-diff subcommand),
+creating (new) and updating (already existing) CFN stacks on AWS accounts
+configured with profiles in awscli tool.
 
 ### Table of Contents
 1. [License & Copyright](#license & copyright)
@@ -67,3 +70,7 @@ Below is the exact usage:
     cfngot aws (--cfn-validate|--cfn-create|--cfn-update|--cfn-destroy) --profile <profile_name> --yaml-config <yaml_fname>
     cfngot json-diff <file1> <file2>
     cfngot (-v|--version)
+
+
+Example --yaml-config and jinja2 based template are in test directory within
+this repository.
