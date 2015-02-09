@@ -40,6 +40,7 @@ templates.
 * MarkupSafe
 * PyYAML
 * awscli
+* vimdiff (if json-diff is going to be used)
 
 ## Configuration
 There is no configuration required for this tool at the moment at all, but one
