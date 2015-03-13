@@ -108,8 +108,8 @@ class CfnDiffFactory(object):
                         sorted(item, key = lambda t: t[dict_key])
                     elif isinstance(item[0], list):
                         sorted(item, key = lambda t: t[0])
-                    elif isinstance(item[0], str):
-                        break
+                elif isinstance(item[0], str):
+                    break
 
         return dictionary
 
