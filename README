@@ -57,8 +57,9 @@ There are 3 subcommands available:
 
 `cfn` - for generating cloudformation templates from jinja2 files
 
-`json-diff` -  (not ready yet) for displaying (using vimdiff) differences between
-  2 json files
+`json-diff` - for displaying (using vimdiff) differences between 2 json files,
+to make best use of it with CFN templates downloaded from AWS one have to remove
+`TemplateBody` line and closing it bracket at the bottom of the file
 
 `aws` - for updating and creating cloudformation stacks as well as validating
   them against cloudformation service provided by AWS.
