@@ -1,0 +1,4 @@
+version=3
+
+opts="filenamemangle=s/(?:.*)?v?(\d[\d\.]*)\.tar\.gz/cfngot-$1.tar.gz/,pgpsigurlmangle=s/$/.asc/" \
+  https://github.com/vorlock/cfngot/tags (?:.*/)?v?(\d[\d\.]*)\.tar\.gz

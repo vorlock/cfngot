@@ -1,0 +1,5 @@
+cfngot (1.0.0-1) unstable; urgency=low
+
+  * Initial release (not for main Debian archive, thus no ITP)
+
+ -- Marcin Kulisz (kuLa) <debian@kulisz.net>  Fri, 22 May 2015 19:55:11 +0100

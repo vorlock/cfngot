@@ -1,0 +1,22 @@
+Source: cfngot
+Section: utils
+Priority: optional
+Maintainer: Marcin Kulisz (kuLa) <debian@kulisz.net>
+Build-Depends: debhelper (>= 9), dh-python, python3-all, python3-setuptools
+Standards-Version: 3.9.6
+X-Python3-Version: >= 3.2
+Homepage: https://github.com/vorlock/cfngot
+Vcs-Git: https://github.com/vorlock/apt-transport-s3/tree/debian/sid
+Vcs-Browser: https://github.com/vorlock/apt-transport-s3/tree/debian/sid
+
+Package: cfngot
+Architecture: all
+Depends: ${misc:Depends}, ${python:Depends}, python3-docopt, python3-jinja2,
+ python3-markupsafe, python3-yaml, awscli
+Recommends: vim-full
+Description: Tool for creating and manipulating cloudformation resources
+ It's tool allowing for describing cloudformation templates with jinja2
+ formatting. J2 templates will be then rendered to the pure json cloudformation
+ templates. This tool also allows for comparing two json files (json-diff
+ subcommand), creating (new) and updating (already existing) CFN stacks on AWS
+ accounts configured with profiles in awscli tool.
