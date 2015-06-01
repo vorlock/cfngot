@@ -6,7 +6,8 @@ import os.path
 def find_version(path):
     import re
     version_file = open(path).read()
-    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
+    version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
+                              version_file, re.M)
     if version_match:
         return version_match.group(1)
     raise RuntimeError("Unable to find version string.")
@@ -19,8 +20,8 @@ setup(name='cfngot',
       url='http://www.python.org/sigs/distutils-sig/',
       scripts=['cfngot'],
       packages=['lib'],
-      install_requires=['Jinaj2 >= 2.7.3',
-                        'pyyaml >= 3.11',
+      install_requires=['Jinja2 >= 2.7.3',
+                        'PyYAML >= 3.11',
                         'awscli >= 1.4.2',
                         'docopt >= 0.6.2',
                         ],
