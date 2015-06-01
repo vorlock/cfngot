@@ -11,7 +11,7 @@ Vcs-Browser: https://github.com/vorlock/apt-transport-s3/tree/debian/sid
 
 Package: cfngot
 Architecture: all
-Depends: ${misc:Depends}, ${python:Depends}, python3-docopt, python3-jinja2,
+Depends: ${misc:Depends}, ${python3:Depends}, python3-docopt, python3-jinja2,
  python3-markupsafe, python3-yaml, awscli
 Recommends: vim-full
 Description: Tool for creating and manipulating cloudformation resources
