@@ -1,0 +1,2 @@
+test/cfn_template.json.j2 usr/share/doc/cfngot/examples
+test/dev.yaml             usr/share/doc/cfngot/examples
