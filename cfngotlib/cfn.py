@@ -29,7 +29,7 @@ import json
 import subprocess
 import tempfile
 
-from lib.helpers import *
+from cfngotlib.helpers import *
 
 
 class CfnTemplateFactory(object):

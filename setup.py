@@ -13,13 +13,14 @@ def find_version(path):
     raise RuntimeError("Unable to find version string.")
 
 setup(name='cfngot',
-      version=find_version(os.path.join(os.path.dirname(__file__), 'cfngot')),
+      version=find_version(os.path.join(os.path.dirname(__file__),
+          'cfngotlib/main.py')),
       description='Tool for generating cloudformation templates out of jinja2',
       author='Marcin Kulisz',
       author_email='sourceforge@kulisz.net',
       url='http://www.python.org/sigs/distutils-sig/',
       scripts=['cfngot'],
-      packages=['lib'],
+      packages=['cfngotlib'],
       install_requires=['Jinja2 >= 2.7.3',
                         'PyYAML >= 3.11',
                         'docopt >= 0.6.2',
@@ -34,6 +35,6 @@ configured with profiles in awscli tool.
 ''',
       entry_points={
           'console_scripts': [
-              'cfngot = lib.main:main'],
+              'cfngot = cfngotlib.main:main'],
           },
      )

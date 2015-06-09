@@ -24,6 +24,8 @@ import os
 from docopt import docopt
 
 
+__version__ = '1.1.0'
+
 def cmd_options():
     """
     Parses USAGE doc string and converting it into comand line arguments and
@@ -50,16 +52,16 @@ def main():
     opts = cmd_options()
 
     if opts['cfn']:
-        from lib.cfn import CfnTemplateFactory
+        from cfngotlib.cfn import CfnTemplateFactory
         cfn = CfnTemplateFactory(opts['<yaml_fname>'])
         cfn.render_all()
     elif opts['json-diff']:
         if opts['<file1>'] and opts['<file2>']:
-            from lib.cfn import CfnDiffFactory
+            from cfngotlib.cfn import CfnDiffFactory
             json_diff = CfnDiffFactory(opts)
             json_diff.diff()
     elif opts['aws']:
-        from lib.cfn import CfnAwsCliOperations
+        from cfngotlib.cfn import CfnAwsCliOperations
         awscli = CfnAwsCliOperations(opts)
         if opts['--cfn-validate']:
             awscli.validate()
@@ -70,16 +72,7 @@ def main():
         elif opts['--cfn-destroy']:
             awscli.destroy()
     elif opts['--version']:
-        def find_version(path):
-            import re
-            version_file = open(path).read()
-            version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]", version_file, re.M)
-            if version_match:
-                return version_match.group(1)
-            raise RuntimeError("Unable to find version string.")
-        print(find_version(os.path.join(os.path.dirname(__file__), '../cfngot')))
-    else:
-        print(opts)
+        print(__version__)
 
 
 if __name__ == '__main__':
