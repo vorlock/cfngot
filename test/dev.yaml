@@ -1,0 +1,10 @@
+---
+cfn_environment: dev
+cfn_bucket: bucket-name
+cfn_region: us-east-1
+secgroups:
+  common:
+    ssh:
+      - 8.8.8.8
+      - 212.220.67.25
+      - 72.52.4.91
