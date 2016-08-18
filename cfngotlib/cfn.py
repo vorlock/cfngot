@@ -85,8 +85,7 @@ class CfnDiffFactory(object):
         file_contents = ''
         with open(os.path.realpath(fname)) as file_name:
             loaded_template = json.load(file_name)
-            sorted_template = self._walk_and_sort(loaded_template)
-            file_contents = json.dumps(sorted_template, indent=4,
+            file_contents = json.dumps(loaded_template, indent=4,
                                        sort_keys=True)
 
         # smash the output into a temporary file, so we can call vimdiff on it
@@ -97,25 +96,9 @@ class CfnDiffFactory(object):
 
         return temp_file.name
 
-    def _walk_and_sort(self, dictionary):
-        if isinstance(dictionary, dict):
-            for key, item in dictionary.items():
-                if isinstance(item, dict):
-                    self._walk_and_sort(item)
-                elif isinstance(item, list):
-                    if isinstance(item[0], dict):
-                        dict_key = list(item[0].keys())[0]
-                        sorted(item, key = lambda t: t[dict_key])
-                    elif isinstance(item[0], list):
-                        sorted(item, key = lambda t: t[0])
-                else:
-                    break
-
-        return dictionary
-
     def diff(self):
         subprocess.call(['vimdiff', self._load_file(self.f_name1),
-            self._load_file(self.f_name2)])
+                        self._load_file(self.f_name2)])
 
 
 class CfnAwsCliOperations(object):
